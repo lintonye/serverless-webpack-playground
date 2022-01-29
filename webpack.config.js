@@ -1,0 +1,51 @@
+const webpack = require("webpack");
+const path = require("path");
+const slsw = require("serverless-webpack");
+const awsExternals = require("webpack-aws-externals");
+const CopyPlugin = require("copy-webpack-plugin");
+// const { findStage } = require("@raydeck/serverless-stage");
+const mode = "none"; // findStage() === "dev" ? "development" : "production";
+module.exports = (async () => {
+  const accountId = await slsw.lib.serverless.providers.aws.getAccountId();
+  return {
+    mode,
+    entry: slsw.lib.entries,
+    target: "node",
+    externals: [awsExternals()],
+    plugins: [
+      new webpack.DefinePlugin({
+        AWS_ACCOUNT_ID: `${accountId}`,
+      }),
+      new CopyPlugin({
+        patterns: [
+          //   { from: "assets", to: "assets" },
+          { from: ".env", to: "." },
+        ],
+      }),
+    ],
+    module: {
+      rules: [
+        // {
+        //   test: /\/assets\/.*$/,
+        //   use: "raw-loader",
+        //   include: [__dirname, path.join(__dirname, "assets")],
+        // },
+        // {
+        //   test: /\.tsx?$/,
+        //   use: "ts-loader",
+        //   exclude: /node_modules/,
+        // },
+      ],
+    },
+    devtool: "source-map",
+    output: {
+      libraryTarget: "commonjs2",
+      path: path.join(__dirname, ".webpack"),
+      filename: "[name].js",
+      sourceMapFilename: "[file].map",
+    },
+    resolve: {
+      extensions: [".ts", ".js", ".json"],
+    },
+  };
+})();

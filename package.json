@@ -1,0 +1,23 @@
+{
+  "name": "playground",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^12.5.3",
+    "dotenv": "^14.3.2",
+    "ffmpeg-static": "^4.4.1"
+  },
+  "devDependencies": {
+    "copy-webpack-plugin": "^10.2.2",
+    "serverless": "^3.0.1",
+    "serverless-webpack": "^5.6.1",
+    "webpack": "^5.67.0",
+    "webpack-aws-externals": "^2.0.1"
+  }
+}

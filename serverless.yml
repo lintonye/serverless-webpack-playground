@@ -1,0 +1,28 @@
+# Welcome to Serverless!
+#
+# This file is the main config file for your service.
+service: discord-playground
+frameworkVersion: "3"
+package:
+  include:
+    - .env
+provider:
+  name: aws
+  runtime: nodejs14.x
+  profile: dots
+  lambdaHashingVersion: 20201221
+  stage: dev
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "*"
+  environment:
+    stage: ${opt:stage, self:provider.stage}
+    service: discord-ts
+
+functions:
+  discord_login:
+    handler: index.handler
+plugins:
+  - serverless-webpack
